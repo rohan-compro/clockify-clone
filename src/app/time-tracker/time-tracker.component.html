@@ -1,26 +1,34 @@
-<div class="container p-2 d-flex justify-content-between" >
+<div class="container " >
 
-  <input type="text" placeholder="What have you worked on?">
-  
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Dropdown button
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-    </div>
-  </div>
+  <form *ngIf="isManual" class="row m-3" [formGroup]="workForm"  (ngSubmit)="setData()">
+
+  <input ngModel class="col-4" type="text" placeholder="What have you worked on?" formControlName="workDone">
+
+  <!-- format 00:00   colon is required -->
+  <input ngModel class=" col-2 time" type="text" formControlName="startTime">
+  <input ngModel class=" col-2 time" type="text" formControlName="endTime">
+
+  <input ngModel class="col-2" type="date" id="calender" formControlName="date">
+
+  <h6 class="totaltime col-1 p-0 m-1">{{totalTime}}</h6>
+
+  <button class="addEntry btn-primary " [disabled]="workForm.invalid">Add</button>
 
 
-  <input type="text" name="startTime" class="time">
-  <input type="text" name="endTime" class="time">
+  </form>
 
-  <input type="date" id="calender">
+</div>
 
-  <p class="totaltime"></p>
+<div class="alert alert-primary w-25 m-3" role="alert" *ngIf="workForm.touched">
+  Please Enter valid fields.
+</div>
 
-  <button class="addEntry btn-primary pl-4 pr-4">Add</button>
+
+<div>
+  <!-- <p> curr time: {{etime.toISOString().substr(11,8)}}</p> -->
+  <p> curr time: {{etime.toLocaleTimeString()}}</p>
+  <p> total time: {{totalTime}}</p>
+  <button *ngIf="isTimerStarted" (click)="startTimer()">Start</button>
+  <button *ngIf="!isTimerStarted" (click)="stopTimer()">Stop</button>
 
 </div>

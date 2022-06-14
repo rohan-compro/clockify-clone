@@ -1,27 +1,26 @@
-input{
-  width: 20rem;
-  font-size: larger;
+.container{
+  width: 100%;
+  background-color: antiquewhite;
 }
 
 
-.time{
-  width: 4rem;
-  height: 4rem;
-  text-align: center;
-}
+// input{
+//   width: 20rem;
+//   font-size: larger;
+// }
 
-#calender{
-  width: 10rem;
-}
+
+// .time{
+//   width: 4rem;
+//   height: 4rem;
+//   text-align: center;
+// }
+
+// #calender{
+//   width: 10rem;
+// }
 
 .totaltime{
-  width: 4rem;
-  height: 4rem;
+  border: 2px solid black;  
   text-align: center;
-  display: block;
-  border: 2px solid black;
-}
-
-.addEntry{
-  // width: 5rem;
 }
