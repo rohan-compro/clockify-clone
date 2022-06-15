@@ -1,34 +1,50 @@
-<div class="container " >
+<div class="form-wrapper ">
 
-  <form *ngIf="isManual" class="row m-3" [formGroup]="workForm"  (ngSubmit)="setData()">
+  <form *ngIf="isManual" class="row shadow" [formGroup]="workForm" (ngSubmit)="setData()">
 
-  <input ngModel class="col-4" type="text" placeholder="What have you worked on?" formControlName="workDone">
+    <input ngModel class="col-4 " type="text" placeholder="What have you worked on?" formControlName="workDone">
 
-  <!-- format 00:00   colon is required -->
-  <input ngModel class=" col-2 time" type="text" formControlName="startTime">
-  <input ngModel class=" col-2 time" type="text" formControlName="endTime">
+    <input [(ngModel)]="start" class=" col-1 time text-center" type="text" formControlName="startTime">
 
-  <input ngModel class="col-2" type="date" id="calender" formControlName="date">
 
-  <h6 class="totaltime col-1 p-0 m-1">{{totalTime}}</h6>
+      <span style="margin-top: 0.75rem"><strong>-</strong></span>
 
-  <button class="addEntry btn-primary " [disabled]="workForm.invalid">Add</button>
+    <input [(ngModel)]="end" class=" col-1 time text-center" type="text" formControlName="endTime">
+
+    <input [(ngModel)]=" todaysDate" class="col-2" type="date" formControlName="date">
+
+    <p class="totaltime col-1 p-1 m-1 lead"><strong>{{totalTime}}</strong></p>
+
+    <button class="addEntry btn btn-primary col-1" [disabled]="workForm.errors?.inValidTime || workForm.invalid">ADD</button>
 
 
   </form>
 
 </div>
 
-<div class="alert alert-primary w-25 m-3" role="alert" *ngIf="workForm.touched">
-  Please Enter valid fields.
+
+
+<div class="alert-wrapper ">
+  <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.errors?.inValidTime && workForm.touched">
+    Please Enter valid fields.
+  </div>
+  <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.required && workForm.touched">
+    Please Enter required fields.
+  </div>
+
+
+
 </div>
 
 
-<div>
-  <!-- <p> curr time: {{etime.toISOString().substr(11,8)}}</p> -->
+
+
+
+
+<!-- <div>
   <p> curr time: {{etime.toLocaleTimeString()}}</p>
   <p> total time: {{totalTime}}</p>
   <button *ngIf="isTimerStarted" (click)="startTimer()">Start</button>
   <button *ngIf="!isTimerStarted" (click)="stopTimer()">Stop</button>
 
-</div>
+</div> -->

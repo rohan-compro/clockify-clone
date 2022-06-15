@@ -1,26 +1,54 @@
-.container{
-  width: 100%;
-  background-color: antiquewhite;
+.row{
+  margin: 2rem 1rem;
+  padding: 0.5rem;
+  border: 0.5px solid rgb(175, 168, 168);
 }
 
 
-// input{
-//   width: 20rem;
-//   font-size: larger;
-// }
+form{
+  input,button{
+    margin: 0.25rem;
+    padding: 0.5rem;
+    border: 0.25px white solid;
+  }
+
+  button{
+    color: #fff;
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+  }
 
 
-// .time{
-//   width: 4rem;
-//   height: 4rem;
-//   text-align: center;
-// }
+}
 
-// #calender{
-//   width: 10rem;
-// }
+
+input:focus{
+  outline: none;
+}
 
 .totaltime{
-  border: 2px solid black;  
+  border: 0.25px solid white;
   text-align: center;
+}
+
+
+form:hover{
+  input, p{
+    border: 0.5px solid rgb(175, 168, 168);
+  }
+  button:hover{
+    filter: brightness(90%);
+  }
+}
+
+
+.alert-wrapper{
+  background-color: aquamarine;
+  height: 40px;
+  width: 25%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 2rem;
+  
 }

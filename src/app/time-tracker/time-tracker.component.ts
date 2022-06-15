@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-time-tracker',
@@ -8,25 +8,31 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
   
 export class TimeTrackerComponent implements OnInit {
-
-  workForm = new FormGroup({
-    workDone: new FormControl("", [Validators.required], ),
-    startTime: new FormControl("", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
-    endTime: new FormControl("", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
-    date: new FormControl("", [Validators.required], ),
-  })
-
+  workForm: any;
   totalTime = '0:00';
+  start = new Date().toTimeString().slice(0,5);
+  end = new Date().toTimeString().slice(0,5);
   interval:any;
+  todaysDate = new Date().toISOString().slice(0, 10);
   stime = new Date();
   etime= new Date();
   isTimerStarted: boolean = true;
-  isManual: boolean= true;
+  isManual: boolean = true;
+  
 
-  constructor() { }
+  constructor(private fm: FormBuilder) { }
 
-  ngOnInit(): void { }
-
+  ngOnInit(): void { 
+    this.workForm = this.fm.group({
+      workDone: this.fm.control("", [Validators.required], ),
+      startTime: this.fm.control("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
+      endTime: this.fm.control("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
+      date: this.fm.control("", [Validators.required], ),
+    },
+      {
+      validators: this.timeValidator('startTime', 'endTime')
+    })
+  }
 
   setData() {
     let work = { ...{}, ...this.workForm.value };
@@ -65,4 +71,25 @@ export class TimeTrackerComponent implements OnInit {
     return this.workForm.get('workDone'); 
   }
 
+  private timeValidator(stime: string, etime: string): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+      const formGroup = control as FormGroup;
+      const valT1 = formGroup.get(stime)?.value;
+      const valT2 = formGroup.get(etime)?.value;
+    
+      const [t1hr, t1min] = valT1.split(':');
+      const [t2hr, t2min] = valT2.split(':');
+
+      if (t2hr> t1hr ||  (t2hr==t1hr && t2min>t1min) ) {
+        return null;
+      }
+      else {
+        return { inValidTime: true}
+      }
+    
+    }
+  }
+
 }
+
+
