@@ -1,50 +1,73 @@
-<div class="form-wrapper ">
+<div class="time-tracker ">
+  <div class="form-wrapper w-100">
 
-  <form *ngIf="isManual" class="row shadow" [formGroup]="workForm" (ngSubmit)="setData()">
-
-    <input ngModel class="col-4 " type="text" placeholder="What have you worked on?" formControlName="workDone">
-
-    <input [(ngModel)]="start" class=" col-1 time text-center" type="text" formControlName="startTime">
-
-
-      <span style="margin-top: 0.75rem"><strong>-</strong></span>
-
-    <input [(ngModel)]="end" class=" col-1 time text-center" type="text" formControlName="endTime">
-
-    <input [(ngModel)]=" todaysDate" class="col-2" type="date" formControlName="date">
-
-    <p class="totaltime col-1 p-1 m-1 lead"><strong>{{totalTime}}</strong></p>
-
-    <button class="addEntry btn btn-primary col-1" [disabled]="workForm.errors?.inValidTime || workForm.invalid">ADD</button>
-
-
-  </form>
-
+    <form *ngIf="isManual" class="" [formGroup]="workForm" (ngSubmit)="setData()">
+  
+      <div class="form-content d-flex flex-wrap justify-content-between no-gutters shadow p-2 ">
+  
+        <div class="work-title m-2 col-11 col-sm-4 col-md-5">
+          <input ngModel class="w-100 h-100 p-2" type="text" placeholder="What have you worked on?"
+            formControlName="workDone">
+        </div>
+  
+  
+        <div class="time-content d-flex align-items-center m-2 col-4 col-sm-2 ">
+  
+          <input [(ngModel)]="start" class=" h-100 w-100 time text-center mr-1 col" type="text" formControlName="startTime">
+            <strong>-</strong>
+          <input [(ngModel)]="end" class=" h-100 w-100 time text-center ml-1 col" type="text" formControlName="endTime">
+        
+        </div>
+  
+        <div class="calender m-2 col-2 col-sm-1 col-md-1">
+          <input [(ngModel)]=" todaysDate" class="h-100 w-100 text-center" type="date" formControlName="date">
+        </div>
+  
+        <div class="totaltime text-center lead ml-2 mr-2 col-1">
+          {{totalTime}}
+        </div>
+  
+        <div class="submitbtn ml-2 mr-2 col-2 col-sm-1">
+          <button class="addEntry btn btn-primary w-100"
+            [disabled]="workForm.errors?.inValidTime || workForm.invalid">ADD</button>
+        </div>
+  
+  
+      </div>
+  
+  
+    </form>
+  
+  </div>
+  
+  
+  
+  
+  <!-- 
+  <div class="alert-wrapper ">
+  
+    <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.errors?.inValidTime && workForm.touched">
+      Please Enter valid fields.
+    </div>
+    <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.required && workForm.touched">
+      Please Enter required fields.
+    </div>
+  
+  </div> -->
+  
+  
+  
+  
+  
+  
+  <!-- <div>
+    <p> curr time: {{etime.toLocaleTimeString()}}</p>
+    <p> total time: {{totalTime}}</p>
+    <button *ngIf="isTimerStarted" (click)="startTimer()">Start</button>
+    <button *ngIf="!isTimerStarted" (click)="stopTimer()">Stop</button>
+  
+  </div> -->
+  
 </div>
 
 
-
-<div class="alert-wrapper ">
-  <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.errors?.inValidTime && workForm.touched">
-    Please Enter valid fields.
-  </div>
-  <div class="alert alert-primary w-100" role="alert" *ngIf="workForm.required && workForm.touched">
-    Please Enter required fields.
-  </div>
-
-
-
-</div>
-
-
-
-
-
-
-<!-- <div>
-  <p> curr time: {{etime.toLocaleTimeString()}}</p>
-  <p> total time: {{totalTime}}</p>
-  <button *ngIf="isTimerStarted" (click)="startTimer()">Start</button>
-  <button *ngIf="!isTimerStarted" (click)="stopTimer()">Stop</button>
-
-</div> -->

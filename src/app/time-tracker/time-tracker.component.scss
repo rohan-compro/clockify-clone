@@ -1,14 +1,13 @@
+.time-tracker{
+  background-color: aqua;
+}
+
 .row{
-  margin: 2rem 1rem;
-  padding: 0.5rem;
   border: 0.5px solid rgb(175, 168, 168);
 }
 
-
 form{
-  input,button{
-    margin: 0.25rem;
-    padding: 0.5rem;
+  input,button,.totaltime{
     border: 0.25px white solid;
   }
 
@@ -17,30 +16,20 @@ form{
     background-color: #03a9f4;
     border-color: #03a9f4;
   }
-
-
 }
-
 
 input:focus{
   outline: none;
 }
 
-.totaltime{
-  border: 0.25px solid white;
-  text-align: center;
-}
-
-
 form:hover{
-  input, p{
+  input, .totaltime{
     border: 0.5px solid rgb(175, 168, 168);
   }
   button:hover{
     filter: brightness(90%);
   }
 }
-
 
 .alert-wrapper{
   background-color: aquamarine;
