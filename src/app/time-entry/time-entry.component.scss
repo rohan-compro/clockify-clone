@@ -1,0 +1,31 @@
+
+
+.row{
+  border: 0.5px solid rgb(175, 168, 168);
+}
+
+form{
+  input,button,.totaltime{
+    border: 0.25px white solid;
+  }
+
+  button{
+    color: #fff;
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+  }
+}
+
+input:focus{
+  outline: none;
+}
+
+form:hover{
+  input, .totaltime{
+    border: 0.5px solid rgb(175, 168, 168);
+  }
+  button:hover{
+    filter: brightness(90%);
+  }
+}
+
