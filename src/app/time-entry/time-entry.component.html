@@ -4,13 +4,13 @@
 
     <div class="form-content row  shadow p-2 ">
 
-      <div class="work-title w-100 col-12 col-md-4">
+      <div class="work-title w-100 col-12 col-md-5 col-lg-5">
         <input ngModel class="w-100  p-2" type="text" placeholder="What have you worked on?"
           formControlName="workDone">
       </div>
 
 
-      <div class="time-content d-flex align-items-center col-4 col-md-3 ">
+      <div class="time-content d-flex align-items-center col-4 col-md-2 col-lg-3">
 
         <input [(ngModel)]="start" class=" w-100 time text-center mr-1 p-2 col" type="text"
           formControlName="startTime">
@@ -19,11 +19,11 @@
 
       </div>
 
-      <div class="calender col-4 col-md-2 d-flex align-item-center">
+      <div class="calender col-4 col-md-2 col-lg-2 d-flex align-item-center">
         <input [(ngModel)]=" todaysDate" class="w-100 text-center" type="date" formControlName="date">
       </div>
 
-      <div class="totaltime d-flex align-items-center justify-content-center col-1 col-md-1">
+      <div class="totaltime d-flex align-items-center justify-content-center col-2 col-md-1 col-lg-1">
         <div class="lead">
           {{totalTime}}
 
@@ -31,7 +31,7 @@
 
       </div>
 
-      <div class="submitbtn col-2 col-md-2">
+      <div class="submitbtn col-2 col-md-2 col-lg-1">
         <button class="addEntry btn btn-primary w-100 p-2"
           [disabled]="workForm.errors?.inValidTime || workForm.invalid">ADD</button>
       </div>
