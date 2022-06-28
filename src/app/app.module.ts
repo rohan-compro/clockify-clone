@@ -10,6 +10,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { TimeEntryComponent } from './time-entry/time-entry.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { FeaturesModule } from './features/features.module';
+import { PrevEntryComponent } from './prev-entry/prev-entry.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FeaturesModule } from './features/features.module';
     SidebarComponent,
     TimeEntryComponent,
     TimeTableComponent,
+    PrevEntryComponent,
   ],
   imports: [
     BrowserModule,

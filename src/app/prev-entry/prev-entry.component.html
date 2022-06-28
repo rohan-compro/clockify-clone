@@ -1,0 +1,52 @@
+<div class="entry-container mb-3">
+  <div class="day-detail d-flex justify-content-between align-items-center  px-3">
+    <h6>{{curr_date}}</h6>
+
+    <div class="time d-flex justify-content-around align-items-center">
+
+      <h6 class="p-1">Total time: </h6>
+      <h5 class="p-1">{{totalTime}}</h5>
+
+    </div>
+  </div>
+
+
+  <div class="form-wrapper container-fluid">
+    <form *ngIf="isManual" class="container-fluid " [formGroup]="workForm" (ngSubmit)="setData()">
+
+      <div class="form-content row p-2 ">
+
+        <div class="work-title w-100 col-12 col-md-6 col-lg-6">
+          <input class="w-100  p-2" type="text" placeholder="What have you worked on?"
+            formControlName="workDone">
+        </div>
+
+
+        <div class="time-content d-flex align-items-center col-5 col-sm-5 col-md-3 col-lg-3">
+
+          <input class=" w-100 time text-center mr-1 p-2 col" type="text"
+            formControlName="startTime">
+          <strong>-</strong>
+          <input class=" w-100 time text-center ml-1 p-2 col" type="text" formControlName="endTime">
+
+        </div>
+
+        <div class="calender col-5 col-sm-5 col-md-2 col-lg-2 d-flex align-item-center">
+          <input  class="w-100 text-center" type="date" formControlName="date">
+        </div>
+
+        <div class="totaltime d-flex align-items-center justify-content-center col-2 col-sm-2 col-md-1 col-lg-1">
+          <div class="lead">
+            <!-- 0:00 -->
+            {{totalTime}}
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+
+</div>

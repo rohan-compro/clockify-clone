@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid'; 
 
 @Component({
   selector: 'app-time-entry',
@@ -7,64 +8,54 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
   styleUrls: ['./time-entry.component.scss']
 })
 export class TimeEntryComponent implements OnInit {
-  workForm: any;
+  workForm: FormGroup;
   totalTime = '0:00';
-  start = new Date().toTimeString().slice(0,5);
-  end = new Date().toTimeString().slice(0,5);
-  interval:any;
-  todaysDate = new Date().toISOString().slice(0, 10);
-  stime = new Date();
-  etime= new Date();
-  isTimerStarted: boolean = true;
   isManual: boolean = true;
   
 
-  constructor(private fm: FormBuilder) { }
+  constructor() { this.workForm = new FormGroup({
+    "workDone": new FormControl("", [Validators.required], ),
+    "startTime": new FormControl("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
+    "endTime": new FormControl("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
+    "date": new FormControl("", [Validators.required], ),
+  },
+    {
+    validators: this.timeValidator('startTime', 'endTime')
+  })}
 
   ngOnInit(): void { 
-    this.workForm = this.fm.group({
-      workDone: this.fm.control("", [Validators.required], ),
-      startTime: this.fm.control("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
-      endTime: this.fm.control("0:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')], ),
-      date: this.fm.control("", [Validators.required], ),
-    },
-      {
-      validators: this.timeValidator('startTime', 'endTime')
-    })
+    
   }
 
   setData() {
-    let work = { ...{}, ...this.workForm.value };
-    console.log(work);
-    let [t1hr, t1min]:any = work.startTime?.split(':');
-    let [t2hr, t2min]:any = work.endTime?.split(':');
+    console.log(this.workForm.value);
+    
+    let work = {
+      id: uuidv4(),
+      date: this.workForm.value.date,
+      project: {
+        project_name : this.workForm.value.workDone ,
+        description : this.workForm.value.description,
+      },
+      timings: {
+        start_time : this.workForm.value.startTime,
+        end_time : this.workForm.value.endTime,
+      }
+    };
+
+    let [t1hr, t1min]:any = work.timings.start_time.split(':');
+    let [t2hr, t2min]:any = work.timings.end_time.split(':');
     this.totalTime = `${t2hr - t1hr}:${t2min - t1min}`;
 
-    if (work && work.date && work.startTime && work.endTime) {
+    if (work && work.date && work.timings.start_time && work.timings.end_time) {
       
-      localStorage.setItem(work.date, JSON.stringify(work));
+      localStorage.setItem(Date.now().toString(), JSON.stringify(work));
     }
     else {
-      // error msg
-
+      console.log(`some error occurred while saving to local storage`);
     }
   }
 
-  startTimer() {
-    this.interval = setInterval(() => {
-      this.etime.setSeconds(this.etime.getSeconds() + 1);
-    }, 1000);
-
-    this.isTimerStarted = !this.isTimerStarted;
-  }
-
-  stopTimer() {
-    this.totalTime = ((this.etime.valueOf() - this.stime.valueOf())/1000).toLocaleString();
-    clearInterval(this.interval);
-    // this.stime.setSeconds(0);
-    this.isTimerStarted = !this.isTimerStarted;
-
-  }
 
   get title() {
     return this.workForm.get('workDone'); 
