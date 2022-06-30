@@ -1,0 +1,22 @@
+<div class="table-container p-3 mt-3">
+  <div class="week-container d-flex justify-content-between">
+    <div class="week-heading" [ngSwitch]="weekIndex">
+
+      <h4 *ngSwitchCase="0">This week</h4>          
+      <h4 *ngSwitchCase="1">Last week</h4>          
+      <h4 *ngSwitchDefault>{{startDate}} - {{endDate}}</h4>          
+
+    </div>
+
+    <div class="total-time d-flex justify-content-around">
+      <p class="p-1">Week total</p> <h5 class="p-1">
+        {{week_total_time[0]}}:{{week_total_time[1]}}
+      </h5>
+    </div>
+  </div>
+
+
+  <div class="entries">
+    <app-prev-entry *ngFor="let childObj of weekData" [data]="childObj" ></app-prev-entry>  
+  </div>
+</div>

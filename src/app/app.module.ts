@@ -11,6 +11,7 @@ import { TimeEntryComponent } from './time-entry/time-entry.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { FeaturesModule } from './features/features.module';
 import { PrevEntryComponent } from './prev-entry/prev-entry.component';
+import { WeekEntryComponent } from './week-entry/week-entry.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PrevEntryComponent } from './prev-entry/prev-entry.component';
     TimeEntryComponent,
     TimeTableComponent,
     PrevEntryComponent,
+    WeekEntryComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,17 +9,14 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class PrevEntryComponent implements OnInit {
   @Input() data: any;
-  @Output() time = new EventEmitter<string>();
+
   workForm: any;
   totalTime = "0:00"
-  isManual: boolean = true;
   curr_date: any;
 
   constructor() { }
 
-  sentTime(curr_time:string) {
-    this.time.emit(curr_time);
-  }
+  
 
   ngOnInit(): void {
     this.workForm = new FormGroup({
@@ -32,19 +29,9 @@ export class PrevEntryComponent implements OnInit {
         validators: this.timeValidator('startTime', 'endTime')
       })
 
-    let [t1hr, t1min]: any = this.data.timings.start_time?.split(':') || [0, 0];
-    let [t2hr, t2min]: any = this.data.timings.end_time?.split(':') || [0, 0];
-    this.totalTime = `${t2hr - t1hr}:${t2min - t1min}`;
-    let [temphr, tempmin] = this.totalTime.split(":");
-    if (temphr.length < 2) {
-      temphr = "0" + temphr;
-    }
-    if (tempmin.length < 2) {
-      tempmin = tempmin + "0";
-    }
-    this.totalTime = `${temphr}:${tempmin}`;
-
-    this.sentTime(this.totalTime);
+   
+    this.totalTime = `${this.data.total_time[0]}:${this.data.total_time[1]}`;
+    
     this.curr_date = new Date(this.data.date).toDateString().slice(0,10)
 
   }

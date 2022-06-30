@@ -1,6 +1,6 @@
 <div class="form-wrapper  ">
 
-  <form *ngIf="isManual" class="container-fluid " [formGroup]="workForm" (ngSubmit)="setData()">
+  <form class="container-fluid " [formGroup]="workForm" (ngSubmit)="setData()">
 
     <div class="form-content row shadow p-2 ">
 
@@ -23,7 +23,7 @@
 
       <div class="totaltime d-flex align-items-center justify-content-center col-2 col-md-1 col-lg-1">
         <div class="lead">
-          {{totalTime}}
+          {{totalTime[0]}}:{{totalTime[1]}}
         </div>
 
       </div>
