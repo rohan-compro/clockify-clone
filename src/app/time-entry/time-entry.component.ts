@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { v4 as uuidv4 } from 'uuid';
+import { EntryService } from '../entry.service';
 
 @Component({
   selector: 'app-time-entry',
@@ -12,7 +12,7 @@ export class TimeEntryComponent implements OnInit {
   totalTime: any = ["00", "00"];
 
 
-  constructor() {
+  constructor(private entry: EntryService) {
     this.workForm = new FormGroup({
       "workDone": new FormControl("", [Validators.required],),
       "startTime": new FormControl("00:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')],),
@@ -24,9 +24,7 @@ export class TimeEntryComponent implements OnInit {
       })
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   format_time(time: any) {
     if (time[0].length < 2) {
@@ -45,7 +43,7 @@ export class TimeEntryComponent implements OnInit {
     let [t2hr, t2min]: any = end.split(':').map(Number);
 
     let timeDiff = (t2hr * 60) + t2min - (t1hr * 60) - t1min;
-    console.log(timeDiff)
+    // console.log(timeDiff)
     return this.format_time([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
 
   }
@@ -55,28 +53,30 @@ export class TimeEntryComponent implements OnInit {
     this.totalTime = this.generateTimeDiff(this.workForm.value.startTime, this.workForm.value.endTime)
        
     let work = {
-      id: uuidv4(),
-      date: this.workForm.value.date,
-      project: {
-        project_name: this.workForm.value.workDone,
-        description: this.workForm.value.description,
+      "date": this.workForm.value.date,
+      "project": {
+        "project_name": this.workForm.value.workDone,
+        // description: this.workForm.value.description,
       },
-      timings: {
-        start_time: this.workForm.value.startTime,
-        end_time: this.workForm.value.endTime,
+      "timings": {
+        "start_time": this.workForm.value.startTime,
+        "end_time": this.workForm.value.endTime,
       },
-      total_time: this.totalTime,
+      "total_time": this.totalTime,
     };
 
+    this.entry.addEntry(work).subscribe((result) => {
+      console.log("result", result);
+      this.workForm.reset({});
+    })
 
+    // if (work && work.date && work.timings.start_time && work.timings.end_time) {
 
-    if (work && work.date && work.timings.start_time && work.timings.end_time) {
-
-      localStorage.setItem(new Date(work.date).getTime().toString(), JSON.stringify(work));
-    }
-    else {
-      console.log(`some error occurred while saving to local storage`);
-    }
+    //   localStorage.setItem(new Date(work.date).getTime().toString(), JSON.stringify(work));
+    // }
+    // else {
+    //   console.log(`some error occurred while saving to local storage`);
+    // }
   }
 
 

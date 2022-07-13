@@ -12,6 +12,7 @@ import { TimeTableComponent } from './time-table/time-table.component';
 import { FeaturesModule } from './features/features.module';
 import { PrevEntryComponent } from './prev-entry/prev-entry.component';
 import { WeekEntryComponent } from './week-entry/week-entry.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { WeekEntryComponent } from './week-entry/week-entry.component';
     FormsModule,
     ReactiveFormsModule,
     FeaturesModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
