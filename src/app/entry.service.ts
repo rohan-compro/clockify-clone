@@ -14,7 +14,6 @@ export class EntryService {
   }
 
   addEntry(data: any) {
-    console.log("service", data);
     return this.http.post(this.url + "entry", data);
   }
 }

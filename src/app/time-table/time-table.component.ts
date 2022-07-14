@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { EntryService } from '../entry.service';
 
 
@@ -32,17 +33,36 @@ export class TimeTableComponent implements OnInit {
     return -1;
   }
 
-  getEntries() {
+  pushNewEntry(newEntry: any) {
+    this.allEntries.push(newEntry);
+
+    for (let val of this.weekValue) {
+      let array = this.fillWeekArrays(val).sort(this.compare)
+
+      if (array.length > 0) {
+        this.weeksArray.push(array);
+      }
+    }
+  }
+
+
+  ngOnInit(): void {
+
+    // Subject.subscribe((data) => {
+    //   let newENtry;
+    //   this.allEntries.push()
+    // })
+
     this.entry.getEntries().subscribe((data) => {
       this.allEntries = data
-      
+
       let curr_week_value = this.getWeekNumber(new Date());
 
       // fill array with week values: 28,29,30,31,32
       for (let i = 0; i < 5; i++) {
         this.weekValue.push(curr_week_value - i);
       }
-  
+
       // fill weeksArray with each week data
       for (let val of this.weekValue) {
         let array = this.fillWeekArrays(val).sort(this.compare)
@@ -51,14 +71,8 @@ export class TimeTableComponent implements OnInit {
           this.weeksArray.push(array);
         }
       }
-  
-    })
-  }
-
-  ngOnInit(): void {
-
-    this.getEntries();
-
+    });
+    
   }
 
 }
