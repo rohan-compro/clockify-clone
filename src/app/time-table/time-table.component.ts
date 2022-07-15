@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { EntryService } from '../entry.service';
 
 
@@ -33,9 +32,9 @@ export class TimeTableComponent implements OnInit {
     return -1;
   }
 
-  pushNewEntry(newEntry: any) {
-    this.allEntries.push(newEntry);
-
+  pushNewEntry(data: any) {
+    this.allEntries.push(data);
+    this.weeksArray = [];
     for (let val of this.weekValue) {
       let array = this.fillWeekArrays(val).sort(this.compare)
 
@@ -47,12 +46,6 @@ export class TimeTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    // Subject.subscribe((data) => {
-    //   let newENtry;
-    //   this.allEntries.push()
-    // })
-
     this.entry.getEntries().subscribe((data) => {
       this.allEntries = data
 
@@ -72,6 +65,11 @@ export class TimeTableComponent implements OnInit {
         }
       }
     });
+
+
+    this.entry.newEntry.subscribe((data) => {
+      this.pushNewEntry(data);
+    })
     
   }
 

@@ -66,9 +66,10 @@ export class TimeEntryComponent implements OnInit {
     };
 
     this.entry.addEntry(work).subscribe((result) => {
-      console.log("result", result);
-      this.workForm.reset({});
-      this.totalTime = ["00", "00"];
+      // console.log("result", result);
+      // this.workForm.reset({});
+      // this.totalTime = ["00", "00"];
+      this.entry.newEntry.next(result);
     })
 
     // if (work && work.date && work.timings.start_time && work.timings.end_time) {
