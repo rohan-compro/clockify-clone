@@ -1,8 +1,8 @@
 interface AppConfig {
-  get_entries_url : string ;
-  add_entry :  string;
+  getEntriesUrl : string ;
+  addEntry :  string;
 }
 export const urlConfig: AppConfig = {
-  get_entries_url: "http://localhost:3300/user/allentries",
-  add_entry: "http://localhost:3300/user/entry"
+  getEntriesUrl: "http://localhost:3300/user/allentries",
+  addEntry: "http://localhost:3300/user/entry"
 }

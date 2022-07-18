@@ -10,10 +10,10 @@ export class EntryService {
   newEntrySubject = new Subject<any>();
   constructor(private http: HttpClient) { }
   getEntries() {
-    return this.http.get(urlConfig.get_entries_url);    
+    return this.http.get(urlConfig.getEntriesUrl);    
   }
   addEntry(data: any) {
-    return this.http.post(urlConfig.add_entry, data).subscribe((result) => {
+    return this.http.post(urlConfig.addEntry, data).subscribe((result) => {
       this.newEntrySubject.next(result);
     })
   }

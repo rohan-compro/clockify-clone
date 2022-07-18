@@ -10,7 +10,7 @@ import { EntryService } from '../entry.service';
 export class TimeEntryComponent implements OnInit {
   workForm: FormGroup;
   totalTime: any = ["00", "00"];
-  constructor(private entry: EntryService) {
+  constructor(private entryService: EntryService) {
     this.workForm = new FormGroup({
       "workDone": new FormControl("", [Validators.required],),
       "startTime": new FormControl("00:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')],),
@@ -54,7 +54,7 @@ export class TimeEntryComponent implements OnInit {
       },
       "total_time": this.totalTime,
     };
-    this.entry.addEntry(work);
+    this.entryService.addEntry(work);
   }
 
   get title() {
