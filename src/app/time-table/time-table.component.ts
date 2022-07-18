@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EntryService } from '../entry.service';
 
 
@@ -7,10 +7,11 @@ import { EntryService } from '../entry.service';
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss']
 })
-export class TimeTableComponent implements OnInit {
+export class TimeTableComponent implements OnInit, OnDestroy {
   allEntries: any = [];
   weekValue: any = [];
   weeksArray: any[][] = []
+  _entriesSubscription: any;
 
   constructor(private entry: EntryService) { }
 
@@ -32,8 +33,8 @@ export class TimeTableComponent implements OnInit {
     return -1;
   }
 
-  pushNewEntry(data: any) {
-    this.allEntries.push(data);
+  pushNewEntry(newEntry: any) {
+    this.allEntries.push(newEntry);
     this.weeksArray = [];
     for (let val of this.weekValue) {
       let array = this.fillWeekArrays(val).sort(this.compare)
@@ -46,7 +47,7 @@ export class TimeTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.entry.getEntries().subscribe((data) => {
+    this._entriesSubscription = this.entry.getEntries().subscribe((data) => {
       this.allEntries = data
 
       let curr_week_value = this.getWeekNumber(new Date());
@@ -71,6 +72,10 @@ export class TimeTableComponent implements OnInit {
       this.pushNewEntry(data);
     })
     
+  }
+
+  ngOnDestroy() {
+    this._entriesSubscription.unsubscribe();
   }
 
 }

@@ -65,20 +65,7 @@ export class TimeEntryComponent implements OnInit {
       "total_time": this.totalTime,
     };
 
-    this.entry.addEntry(work).subscribe((result) => {
-      // console.log("result", result);
-      // this.workForm.reset({});
-      // this.totalTime = ["00", "00"];
-      this.entry.newEntry.next(result);
-    })
-
-    // if (work && work.date && work.timings.start_time && work.timings.end_time) {
-
-    //   localStorage.setItem(new Date(work.date).getTime().toString(), JSON.stringify(work));
-    // }
-    // else {
-    //   console.log(`some error occurred while saving to local storage`);
-    // }
+    this.entry.addEntry(work)
   }
 
 
