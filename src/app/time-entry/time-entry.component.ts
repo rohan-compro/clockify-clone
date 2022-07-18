@@ -10,8 +10,6 @@ import { EntryService } from '../entry.service';
 export class TimeEntryComponent implements OnInit {
   workForm: FormGroup;
   totalTime: any = ["00", "00"];
-
-
   constructor(private entry: EntryService) {
     this.workForm = new FormGroup({
       "workDone": new FormControl("", [Validators.required],),
@@ -26,15 +24,13 @@ export class TimeEntryComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  format_time(time: any) {
+  formatTime(time: any) {
     if (time[0].length < 2) {
       time[0] = "0" + time[0];
     }
-
     if (time[1].length < 2) {
       time[1] = time[1] + "0";
     }
-
     return time;
   }
 
@@ -43,13 +39,10 @@ export class TimeEntryComponent implements OnInit {
     let [t2hr, t2min]: any = end.split(':').map(Number);
 
     let timeDiff = (t2hr * 60) + t2min - (t1hr * 60) - t1min;
-    return this.format_time([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
-
+    return this.formatTime([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
   }
   setData() {
-    
     this.totalTime = this.generateTimeDiff(this.workForm.value.startTime, this.workForm.value.endTime)
-       
     let work = {
       "date": this.workForm.value.date,
       "project": {
@@ -61,10 +54,8 @@ export class TimeEntryComponent implements OnInit {
       },
       "total_time": this.totalTime,
     };
-
-    this.entry.addEntry(work)
+    this.entry.addEntry(work);
   }
-
 
   get title() {
     return this.workForm.get('workDone');
@@ -85,7 +76,6 @@ export class TimeEntryComponent implements OnInit {
       else {
         return { inValidTime: true }
       }
-
     }
   }
 

@@ -9,15 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class PrevEntryComponent implements OnInit {
   @Input() data: any;
-
   workForm: any;
   totalTime = "0:00"
-  curr_date: any;
-
+  currDate: any;
   constructor() { }
-
-  
-
   ngOnInit(): void {
     this.workForm = new FormGroup({
       "workDone": new FormControl(this.data.project.project_name, [Validators.required],),
@@ -28,12 +23,8 @@ export class PrevEntryComponent implements OnInit {
       {
         validators: this.timeValidator('startTime', 'endTime')
       })
-
-   
     this.totalTime = `${this.data.total_time[0]}:${this.data.total_time[1]}`;
-    
-    this.curr_date = new Date(this.data.date).toDateString().slice(0,10)
-
+    this.currDate = new Date(this.data.date).toDateString().slice(0,10)
   }
 
   setData() {
@@ -53,17 +44,7 @@ export class PrevEntryComponent implements OnInit {
     let [t1hr, t1min]:any = work.timings.start_time.split(':');
     let [t2hr, t2min]:any = work.timings.end_time.split(':');
     this.totalTime = `${t2hr - t1hr}:${t2min - t1min}`;
-
-    if (work && work.date && work.timings.start_time && work.timings.end_time) {
-      
-      localStorage.setItem(Date.now().toString(), JSON.stringify(work));
-    }
-    else {
-      console.log(`some error while saving entry`);
-    }
-    
   }
-
 
   get title() {
     return this.workForm.get('workDone');
@@ -84,7 +65,6 @@ export class PrevEntryComponent implements OnInit {
       else {
         return { inValidTime: true }
       }
-
     }
   }
 

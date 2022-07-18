@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-time-tracker',
   templateUrl: './time-tracker.component.html',
@@ -8,13 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
   
 export class TimeTrackerComponent implements OnInit {
-  
-
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
 
 

@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EntryService } from '../entry.service';
-
-
 @Component({
   selector: 'app-time-table',
   templateUrl: './time-table.component.html',
@@ -11,9 +9,9 @@ export class TimeTableComponent implements OnInit, OnDestroy {
   allEntries: any = [];
   weekValue: any = [];
   weeksArray: any[][] = []
-  _entriesSubscription: any;
+  entriesSubscription: any;
 
-  constructor(private entry: EntryService) { }
+  constructor(private entryService: EntryService) { }
 
   getWeekNumber(date: any) {
     let currentdate:any = new Date(date)
@@ -38,44 +36,36 @@ export class TimeTableComponent implements OnInit, OnDestroy {
     this.weeksArray = [];
     for (let val of this.weekValue) {
       let array = this.fillWeekArrays(val).sort(this.compare)
-
       if (array.length > 0) {
         this.weeksArray.push(array);
       }
     }
   }
 
-
   ngOnInit(): void {
-    this._entriesSubscription = this.entry.getEntries().subscribe((data) => {
+    this.entriesSubscription = this.entryService.getEntries().subscribe((data) => {
       this.allEntries = data
-
       let curr_week_value = this.getWeekNumber(new Date());
-
       // fill array with week values: 28,29,30,31,32
       for (let i = 0; i < 5; i++) {
         this.weekValue.push(curr_week_value - i);
       }
-
       // fill weeksArray with each week data
       for (let val of this.weekValue) {
         let array = this.fillWeekArrays(val).sort(this.compare)
-
         if (array.length > 0) {
           this.weeksArray.push(array);
         }
       }
     });
-
-
-    this.entry.newEntry.subscribe((data) => {
+    this.entryService.newEntrySubject.subscribe((data) => {
       this.pushNewEntry(data);
     })
-    
   }
 
   ngOnDestroy() {
-    this._entriesSubscription.unsubscribe();
+    if (!!this.entriesSubscription) {
+      this.entriesSubscription.unsubscribe();
+    }
   }
-
 }
