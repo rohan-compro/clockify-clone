@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EntryService } from '../entry.service';
-
-
 @Component({
   selector: 'app-time-table',
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss']
 })
-export class TimeTableComponent implements OnInit {
+export class TimeTableComponent implements OnInit, OnDestroy {
   allEntries: any = [];
   weekValue: any = [];
   weeksArray: any[][] = []
+  entriesSubscription: any;
 
-  constructor(private entry: EntryService) { }
+  constructor(private entryService: EntryService) { }
 
   getWeekNumber(date: any) {
     let currentdate:any = new Date(date)
@@ -35,44 +33,39 @@ export class TimeTableComponent implements OnInit {
 
   pushNewEntry(newEntry: any) {
     this.allEntries.push(newEntry);
-
+    this.weeksArray = [];
     for (let val of this.weekValue) {
       let array = this.fillWeekArrays(val).sort(this.compare)
-
       if (array.length > 0) {
         this.weeksArray.push(array);
       }
     }
   }
 
-
   ngOnInit(): void {
-
-    // Subject.subscribe((data) => {
-    //   let newENtry;
-    //   this.allEntries.push()
-    // })
-
-    this.entry.getEntries().subscribe((data) => {
+    this.entriesSubscription = this.entryService.getEntries().subscribe((data) => {
       this.allEntries = data
-
       let curr_week_value = this.getWeekNumber(new Date());
-
       // fill array with week values: 28,29,30,31,32
       for (let i = 0; i < 5; i++) {
         this.weekValue.push(curr_week_value - i);
       }
-
       // fill weeksArray with each week data
       for (let val of this.weekValue) {
         let array = this.fillWeekArrays(val).sort(this.compare)
-
         if (array.length > 0) {
           this.weeksArray.push(array);
         }
       }
     });
-    
+    this.entryService.newEntrySubject.subscribe((data) => {
+      this.pushNewEntry(data);
+    })
   }
 
+  ngOnDestroy() {
+    if (!!this.entriesSubscription) {
+      this.entriesSubscription.unsubscribe();
+    }
+  }
 }

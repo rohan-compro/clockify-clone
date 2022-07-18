@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
+import { Subject } from 'rxjs';
+import {urlConfig} from '../config/local'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntryService {
-  url: string = "http://localhost:3000/user/";
-
+  newEntrySubject = new Subject<any>();
   constructor(private http: HttpClient) { }
-  
   getEntries() {
-    return this.http.get(this.url + "allentries")    
+    return this.http.get(urlConfig.getEntriesUrl);    
   }
-
   addEntry(data: any) {
-    return this.http.post(this.url + "entry", data);
+    return this.http.post(urlConfig.addEntry, data).subscribe((result) => {
+      this.newEntrySubject.next(result);
+    })
   }
 }

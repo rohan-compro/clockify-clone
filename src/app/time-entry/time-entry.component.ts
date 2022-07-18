@@ -10,9 +10,7 @@ import { EntryService } from '../entry.service';
 export class TimeEntryComponent implements OnInit {
   workForm: FormGroup;
   totalTime: any = ["00", "00"];
-
-
-  constructor(private entry: EntryService) {
+  constructor(private entryService: EntryService) {
     this.workForm = new FormGroup({
       "workDone": new FormControl("", [Validators.required],),
       "startTime": new FormControl("00:00", [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')],),
@@ -26,15 +24,13 @@ export class TimeEntryComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  format_time(time: any) {
+  formatTime(time: any) {
     if (time[0].length < 2) {
       time[0] = "0" + time[0];
     }
-
     if (time[1].length < 2) {
       time[1] = time[1] + "0";
     }
-
     return time;
   }
 
@@ -43,20 +39,14 @@ export class TimeEntryComponent implements OnInit {
     let [t2hr, t2min]: any = end.split(':').map(Number);
 
     let timeDiff = (t2hr * 60) + t2min - (t1hr * 60) - t1min;
-    // console.log(timeDiff)
-    return this.format_time([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
-
+    return this.formatTime([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
   }
   setData() {
-    // console.log(this.workForm.value);
-    
     this.totalTime = this.generateTimeDiff(this.workForm.value.startTime, this.workForm.value.endTime)
-       
     let work = {
       "date": this.workForm.value.date,
       "project": {
         "project_name": this.workForm.value.workDone,
-        // description: this.workForm.value.description,
       },
       "timings": {
         "start_time": this.workForm.value.startTime,
@@ -64,22 +54,8 @@ export class TimeEntryComponent implements OnInit {
       },
       "total_time": this.totalTime,
     };
-
-    this.entry.addEntry(work).subscribe((result) => {
-      console.log("result", result);
-      this.workForm.reset({});
-      this.totalTime = ["00", "00"];
-    })
-
-    // if (work && work.date && work.timings.start_time && work.timings.end_time) {
-
-    //   localStorage.setItem(new Date(work.date).getTime().toString(), JSON.stringify(work));
-    // }
-    // else {
-    //   console.log(`some error occurred while saving to local storage`);
-    // }
+    this.entryService.addEntry(work);
   }
-
 
   get title() {
     return this.workForm.get('workDone');
@@ -100,7 +76,6 @@ export class TimeEntryComponent implements OnInit {
       else {
         return { inValidTime: true }
       }
-
     }
   }
 
