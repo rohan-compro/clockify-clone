@@ -11,13 +11,13 @@ import { LoadingService } from './loading.service';
 @Injectable()
 export class NetworkInterceptor implements HttpInterceptor {
 
-  constructor(private loader: LoadingService) {}
+  constructor(private loaderService: LoadingService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.loader.show();
+    this.loaderService.show();
     return next.handle(request).pipe(
       finalize(() => {
-        this.loader.hide()
+        this.loaderService.hide()
       })
     );
   }
