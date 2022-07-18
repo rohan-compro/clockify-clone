@@ -43,12 +43,10 @@ export class TimeEntryComponent implements OnInit {
     let [t2hr, t2min]: any = end.split(':').map(Number);
 
     let timeDiff = (t2hr * 60) + t2min - (t1hr * 60) - t1min;
-    // console.log(timeDiff)
     return this.format_time([`${Math.floor(timeDiff/60)}`, `${timeDiff % 60}`]);
 
   }
   setData() {
-    // console.log(this.workForm.value);
     
     this.totalTime = this.generateTimeDiff(this.workForm.value.startTime, this.workForm.value.endTime)
        
@@ -56,7 +54,6 @@ export class TimeEntryComponent implements OnInit {
       "date": this.workForm.value.date,
       "project": {
         "project_name": this.workForm.value.workDone,
-        // description: this.workForm.value.description,
       },
       "timings": {
         "start_time": this.workForm.value.startTime,
