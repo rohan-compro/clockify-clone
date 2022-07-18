@@ -12,7 +12,8 @@ import { TimeTableComponent } from './time-table/time-table.component';
 import { FeaturesModule } from './features/features.module';
 import { PrevEntryComponent } from './prev-entry/prev-entry.component';
 import { WeekEntryComponent } from './week-entry/week-entry.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NetworkInterceptor } from './network.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,11 @@ import { HttpClientModule } from '@angular/common/http';
     FeaturesModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: NetworkInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
