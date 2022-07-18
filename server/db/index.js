@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
 
 // mongoDB credentials here
-
-
-
+const uri = ""
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology:true
